@@ -1,0 +1,17 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: hackmatch
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-hackmatch_local}
+      POSTGRES_DB: hackmatch
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - hackmatch_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hackmatch"]
+      interval: 3s
+      retries: 20
+volumes:
+  hackmatch_data:
